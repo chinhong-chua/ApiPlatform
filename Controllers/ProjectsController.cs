@@ -9,7 +9,7 @@ namespace PlatformDemo2.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("Reading all tickets");
+            return Ok("Reading all Projects");
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -18,16 +18,29 @@ namespace PlatformDemo2.Controllers
         }
 
         //api/projects/{pid}/tickets?tid={tid}
+        // [HttpGet]
+        // [Route("/api/projects/{pid}/tickets")]
+        // public IActionResult GetById(int pId,[FromQuery] int tId)
+        // {
+        //     if (tId == 0)
+        //     {
+        //         return Ok($"Reading all the tickets belong to Project #{pId}");
+        //     }
+        //     return Ok($"Reading Project: #{pId} , Ticket: #{tId} .");
+        // }
         [HttpGet]
         [Route("/api/projects/{pid}/tickets")]
-        public IActionResult GetById(int pId,[FromQuery] int tId)
+        public IActionResult GetById([FromQuery]Ticket ticket)
         {
-            if (tId == 0)
+            if(ticket == null) return BadRequest("Paremters not found ");
+
+            if (ticket.TicketId == 0)
             {
-                return Ok($"Reading all the tickets belong to Project #{pId}");
+                return Ok($"Reading all the tickets belong to Project #{ticket.ProjectId}");
             }
-            return Ok($"Reading Project: #{pId} , Ticket: #{tId} .");
+            return Ok($"Reading Project: #{ticket.ProjectId} , Ticket: #{ticket.TicketId} , Title {ticket.Title} Desc {ticket.Description}.");
         }
+
         [HttpPost]
         public IActionResult Post()
         {
